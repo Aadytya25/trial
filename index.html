@@ -3,87 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Portfolio</title>
-    <!-- Use Tailwind CSS for a modern, responsive design -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use a modern, clean font from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Aditya Mahale — Digital Marketer & Content Creator</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        // Tailwind Configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'background-light': '#f3f4f6',
+                        'card-bg-light': '#ffffff',
+                        'primary-dark': '#111827',
+                        'primary-blue': '#00aaff',
+                        'secondary-pink': '#ec4899',
+                        // Custom Card Colors - now all light variants
+                        'light-reel-pink': '#fff0f7', // Very light pink for Reel 1
+                        'light-reel-purple': '#f5f0ff', // Very light purple for Reel 2
+                        'light-reel-cyan': '#e0f7fa', // Light cyan for Reel 3 (similar to light-card-accent)
+                        'light-card-yellow': '#fffde7', // Light yellow for Canva
+                        'light-card-green': '#e0f2f1', // Light mint/teal for Strategy
+                        'light-card-red': '#fef2f2', // New light red for Assessment
+                        'text-muted-dark': '#4b5563',
+                        'light-card-accent': '#e0f7fa', // Original light blue accent for Short Film
+                    },
+                    boxShadow: {
+                        // ENHANCED GLOW EFFECTS
+                        'neon-blue': '0 0 20px rgba(0, 170, 255, 0.5), 0 0 40px rgba(0, 170, 255, 0.1)',
+                        'neon-pink': '0 0 20px rgba(236, 72, 153, 0.7), 0 0 40px rgba(236, 72, 153, 0.2)',
+                        'neon-purple': '0 0 20px rgba(162, 28, 222, 0.5), 0 0 40px rgba(162, 28, 222, 0.1)', // New purple glow
+                        'neon-cyan': '0 0 20px rgba(19, 168, 168, 0.7), 0 0 40px rgba(19, 168, 168, 0.2)', // New cyan glow
+                        'neon-yellow': '0 0 20px rgba(255, 204, 0, 0.7), 0 0 40px rgba(255, 204, 0, 0.2)',
+                        'neon-green': '0 0 20px rgba(19, 168, 168, 0.7), 0 0 40px rgba(19, 168, 168, 0.2)',
+                        'neon-red': '0 0 20px rgba(239, 68, 68, 0.7), 0 0 40px rgba(239, 68, 68, 0.2)', // New red glow
+                    }
+                }
+            }
+        }
+
+        // --- JavaScript Functions for UX ---
+
+        // 1. Form Submission Handler
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('contact-form');
+            const messageBox = document.getElementById('success-message');
+            
+            // Simulate form submission success
+            form.reset();
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('flex');
+            
+            // Hide the success message after 5 seconds
+            setTimeout(() => {
+                messageBox.classList.remove('flex');
+                messageBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        // 2. Mobile Menu Toggle - RESTORED
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // 3. Smooth Scroll handler for Navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        const headerOffset = 80; // Account for fixed header height
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+
+                    // Close mobile menu after clicking a link
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            /* Lighter, softer background gradient */
+            background: linear-gradient(to bottom right, #f8faff, #f3f4f6); 
+            padding-top: 64px; /* Space for fixed header */
         }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Group hover effect: Lift and Glow Outline (removed translateX) */
+        .group:hover {
+            /* Kept the lift/scale, removed the horizontal slide */
+            transform: scale(1.02); 
+            transition: all 0.3s ease-in-out;
+            outline-offset: 4px;
+        }
+        /* Custom outlines for specific card themes */
+        .group.reel-pink:hover {
+            outline: 2px solid theme('colors.secondary-pink'); /* Pink glow for first reel */
+        }
+        .group.reel-purple:hover {
+            outline: 2px solid theme('colors.purple.500'); /* Purple glow for second reel */
+        }
+        .group.reel-cyan:hover {
+            outline: 2px solid theme('colors.cyan.500'); /* Cyan glow for third reel */
+        }
+        .group.film-blue:hover {
+            outline: 2px solid theme('colors.primary-blue'); /* Blue glow for film */
+        }
+        .group.canva-yellow:hover {
+            outline: 2px solid theme('colors.amber.500'); /* Amber glow for canva */
+        }
+        .group.strategy-green:hover {
+            outline: 2px solid theme('colors.teal.500'); /* Teal glow for strategy */
+        }
+        .group.assessment-red:hover {
+            outline: 2px solid theme('colors.red.500'); /* Red glow for assessment */
+        }
+
+        /* --- NEW ANIMATIONS (Kept from previous steps) --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes textPop {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-section-in {
+            opacity: 0; 
+            animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        .animate-hero-text {
+            opacity: 0;
+            animation: textPop 0.8s ease-out 0.1s forwards;
+        }
+        /* Staggered Delays for Sequential Entrance */
+        .delay-0 { animation-delay: 0.0s; } 
+        .delay-1 { animation-delay: 0.2s; } 
+        .delay-2 { animation-delay: 0.4s; } 
+        .delay-3 { animation-delay: 0.6s; } 
+        .delay-4 { animation-delay: 0.8s; } 
+        .delay-5 { animation-delay: 1.0s; } 
+        .delay-6 { animation-delay: 1.2s; } /* Added delay for new section */
+        /* --- END NEW ANIMATIONS --- */
     </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-6">
+<body class="text-primary-dark">
 
-    <!-- Main Container for the entire portfolio page -->
-    <div class="max-w-4xl w-full bg-gray-800 rounded-2xl p-8 md:p-12 shadow-2xl border border-gray-700">
+    <!-- 1. FIXED HEADER/NAVIGATION --><header class="fixed top-0 left-0 w-full bg-card-bg-light shadow-md z-50">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+            <!-- Logo/Name --><a href="#" class="text-xl font-bold text-primary-dark hover:text-primary-blue transition duration-200">A. Mahale</a>
 
-        <!-- Header Section -->
-        <header class="text-center mb-10">
-            <!-- Your Name -->
-            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-500 mb-2">
-                Your Name
-            </h1>
-            <!-- Your Title or Tagline -->
-            <p class="text-lg md:text-xl text-gray-300">
-                Creative Director & Designer
-            </p>
-        </header>
+            <!-- Desktop Navigation --><nav class="hidden md:flex space-x-6 font-semibold">
+                <a class="text-primary-dark hover:text-primary-blue transition duration-200" href="#reels">Reels</a>
+                <a class="text-primary-dark hover:text-primary-blue transition duration-200" href="#shortfilms">Films</a>
+                <a class="text-primary-dark hover:text-primary-blue transition duration-200" href="#assessment">Assessment</a>
+                <a class="text-primary-dark hover:text-primary-blue transition duration-200" href="#canvaart">Design</a>
+                <a class="text-primary-dark hover:text-primary-blue transition duration-200" href="#contentcalendar">Strategy</a>
+                <a class="text-primary-dark hover:text-secondary-pink transition duration-200" href="#contact">Contact</a>
+            </nav>
 
-        <!-- Work/Projects Section -->
-        <section class="space-y-12">
-            <h2 class="text-3xl font-bold text-center text-white mb-6">Featured Work</h2>
+            <!-- Mobile Menu Button - RESTORED --><button class="md:hidden p-2 rounded-lg text-primary-dark hover:bg-gray-100" onclick="toggleMobileMenu()">
+                <!-- SVG Hamburger Icon --><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
+        </div>
 
-            <!-- Grid for the project cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Mobile Menu Dropdown - RESTORED --><nav id="mobile-menu" class="hidden md:hidden px-4 pb-4 border-t border-gray-200 bg-card-bg-light">
+            <a class="block py-2 text-primary-dark hover:text-primary-blue transition duration-200 font-semibold uppercase" href="#reels">Short-Form Reels</a>
+            <a class="block py-2 text-primary-dark hover:text-primary-blue transition duration-200 font-semibold uppercase" href="#shortfilms">Short Film</a>
+            <a class="block py-2 text-primary-dark hover:text-red-600 transition duration-200 font-semibold uppercase" href="#assessment">Interview Assessment</a>
+            <a class="block py-2 text-primary-dark hover:text-primary-blue transition duration-200 font-semibold uppercase" href="#canvaart">Canva & Design</a>
+            <a class="block py-2 text-primary-dark hover:text-primary-blue transition duration-200 font-semibold uppercase" href="#contentcalendar">Content Strategy</a>
+            <a class="block py-2 text-primary-dark hover:text-secondary-pink transition duration-200 font-semibold uppercase" href="#contact">Contact Me</a>
+        </nav>
+    </header>
 
-                <!-- Project Card 1: Copy this block to add more projects -->
-                <div class="bg-gray-700 rounded-xl p-6 flex flex-col items-center text-center shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl">
-                    <!-- Placeholder image - you can replace the URL with your own image -->
-                    <img src="https://placehold.co/400x300/1e293b/a1a1aa?text=Project+1" alt="Project 1 thumbnail" class="w-full h-auto rounded-lg mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">Project Title 1</h3>
-                    <p class="text-gray-400 text-sm mb-4">A brief, captivating description of your creative work. Highlight the key challenge or outcome.</p>
-                    <!-- Link to your work -->
-                    <a href="#" class="inline-block px-6 py-2 mt-auto text-white bg-sky-600 rounded-full font-medium transition-colors hover:bg-sky-500">
-                        View Project
-                    </a>
+
+    <div class="container mx-auto px-4 md:px-6 py-6">
+        <main>
+            <!-- HERO SECTION --><section class="mb-20 pt-8 md:pt-12">
+                <div class="bg-card-bg-light p-8 md:p-12 rounded-2xl shadow-2xl border border-gray-200 animate-section-in delay-0">
+                    <p class="text-sm font-semibold text-primary-blue mb-2">Hi — I'm Aditya Mahale</p>
+                    <h2 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4 text-primary-dark animate-hero-text">
+                        Digital Marketing,<br>
+                        <span class="text-secondary-pink">Video Editing & Content Design.</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-primary-blue rounded-full mb-6"></div>
+                    <p class="text-lg text-text-muted-dark max-w-3xl mb-8">I create short-form video, social creatives, and LinkedIn content designed for high engagement and growth-focused teams.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a class="inline-block bg-secondary-pink hover:bg-pink-600 text-white font-bold px-8 py-3 rounded-xl transition duration-200 shadow-lg shadow-secondary-pink/40" href="#reels">View Work</a>
+                        <a class="inline-block bg-primary-blue/10 hover:bg-primary-blue/20 text-primary-dark font-semibold px-8 py-3 rounded-xl transition duration-200 border border-primary-blue/30" href="#contact">Hire Me</a>
+                    </div>
+                    
+                    <div class="flex justify-center mt-12">
+                        <a href="#projects" class="text-primary-blue hover:text-secondary-pink animate-bounce p-3 rounded-full border border-primary-blue/50 transition duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a>
+                    </div>
+
                 </div>
+            </section>
 
-                <!-- Project Card 2 -->
-                <div class="bg-gray-700 rounded-xl p-6 flex flex-col items-center text-center shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl">
-                    <img src="https://placehold.co/400x300/1e293b/a1a1aa?text=Project+2" alt="Project 2 thumbnail" class="w-full h-auto rounded-lg mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">Project Title 2</h3>
-                    <p class="text-gray-400 text-sm mb-4">Explain the design choices and the tools you used to bring this project to life.</p>
-                    <a href="#" class="inline-block px-6 py-2 mt-auto text-white bg-sky-600 rounded-full font-medium transition-colors hover:bg-sky-500">
-                        View Project
-                    </a>
-                </div>
-
-                <!-- Project Card 3 -->
-                <div class="bg-gray-700 rounded-xl p-6 flex flex-col items-center text-center shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl">
-                    <img src="https://placehold.co/400x300/1e293b/a1a1aa?text=Project+3" alt="Project 3 thumbnail" class="w-full h-auto rounded-lg mb-4">
-                    <h3 class="text-xl font-semibold mb-2 text-cyan-300">Project Title 3</h3>
-                    <p class="text-gray-400 text-sm mb-4">Describe the impact of this work and any recognition it received.</p>
-                    <a href="#" class="inline-block px-6 py-2 mt-auto text-white bg-sky-600 rounded-full font-medium transition-colors hover:bg-sky-500">
-                        View Project
-                    </a>
-                </div>
-
+            <!-- PROJECT DIVIDER --><div id="projects" class="animate-section-in delay-1">
+                <h2 class="text-4xl font-extrabold mb-10 text-primary-dark border-b-2 pb-3 border-gray-300">Selected Portfolio</h2>
             </div>
-        </section>
 
-        <!-- Footer Section with Contact Information -->
-        <footer class="mt-16 text-center text-gray-500">
-            <h3 class="text-xl font-bold text-white mb-4">Get in touch!</h3>
-            <p>Email: <a href="mailto:your.email@example.com" class="text-sky-400 hover:underline">your.email@example.com</a></p>
-            <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" class="text-sky-400 hover:underline">/in/yourprofile</a></p>
-            <p>Behance: <a href="https://behance.net/yourprofile" class="text-sky-400 hover:underline">/yourprofile</a></p>
+            <!-- REELS SECTION --><section id="reels" class="mb-16 animate-section-in delay-2">
+                <h3 class="text-2xl font-bold mb-4 text-secondary-pink">Short-Form Reels</h3>
+                <p class="text-text-muted-dark mb-8 max-w-3xl">High-engagement, high-velocity content optimized for Instagram and LinkedIn. These projects feature a vibrant, light aesthetic.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Reel 1: Light Pink Theme -->
+                    <div class="group light-card reel-pink bg-light-reel-pink p-5 rounded-xl shadow-xl border border-secondary-pink/50 transition duration-300 hover:shadow-neon-pink hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-gray-100 rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-secondary-pink">Video Placeholder</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-2xl font-bold text-primary-dark mb-2 text-center">Personal Reel 1</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">A fast-paced, motivational reel covering self-improvement topics. Focus on dynamic text and cuts.</p>
+                        <a class="block text-center bg-secondary-pink hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md shadow-secondary-pink/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">Watch Reel</a>
+                    </div>
+                    <!-- Reel 2: Light Purple Theme -->
+                    <div class="group light-card reel-purple bg-light-reel-purple p-5 rounded-xl shadow-xl border border-purple-400/50 transition duration-300 hover:shadow-neon-purple hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-gray-100 rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-purple-500">Video Placeholder</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-2xl font-bold text-primary-dark mb-2 text-center">Travel Diaries</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">Slow-motion B-roll and cinematic editing highlighting recent travel experiences in Asia.</p>
+                        <a class="block text-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md shadow-purple-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">Catch the Vibe</a>
+                    </div>
+                    <!-- Reel 3: Light Cyan Theme -->
+                    <div class="group light-card reel-cyan bg-light-reel-cyan p-5 rounded-xl shadow-xl border border-cyan-400/50 transition duration-300 hover:shadow-neon-cyan hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-gray-100 rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-cyan-500">Action Video Here</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-2xl font-bold text-primary-dark mb-2 text-center">Daily Workout Routine</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">High-energy fitness segment designed to maximize motivation and share quick tips for morning exercise.</p>
+                        <a class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md shadow-cyan-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">Start Challenge</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SHORT FILM --><section id="shortfilms" class="mb-16 animate-section-in delay-3">
+                <h3 class="text-2xl font-bold mb-4 text-primary-dark">Short Film</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Short Film: Blue Theme -->
+                    <div class="group light-card film-blue bg-light-card-accent p-5 rounded-xl shadow-xl border border-primary-blue/50 transition duration-300 hover:shadow-neon-blue hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-white rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-primary-blue">Short Film Placeholder</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-xl font-bold text-primary-dark mb-2 text-center">College Short Film</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">A dramatic narrative exploring themes of ambition and sacrifice, filmed and edited entirely within a week.</p>
+                        <a class="block text-center bg-primary-blue hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md shadow-primary-blue/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">View Project</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- INTERVIEW ASSESSMENT SECTION (MOVED HERE) -->
+            <section id="assessment" class="mb-20 animate-section-in delay-4">
+                <h3 class="text-2xl font-bold mb-4 text-red-600">Interview Assessment</h3>
+                <p class="text-text-muted-dark mb-8 max-w-3xl">Review mock assignments and practical tasks completed during interview processes, demonstrating skill and strategic thinking.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Assessment 1: Red Theme -->
+                    <div class="group light-card assessment-red bg-light-card-red p-5 rounded-xl shadow-xl border border-red-500/50 transition duration-300 hover:shadow-neon-red hover:bg-white flex flex-col h-full">
+                        <div class="w-full h-56 bg-gray-100 rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-red-500">Assessment File Preview</p>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary-dark mb-2 text-center">Social Growth Audit (Client X)</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">A comprehensive audit of a mock client's social channels with strategic recommendations for a Q4 marketing push.</p>
+                        <a class="block text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md shadow-red-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">Review Assessment</a>
+                    </div>
+                    <!-- Assessment 2: Red Theme -->
+                    <div class="group light-card assessment-red bg-light-card-red p-5 rounded-xl shadow-xl border border-red-500/50 transition duration-300 hover:shadow-neon-red hover:bg-white flex flex-col h-full">
+                        <div class="w-full h-56 bg-gray-100 rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-red-500">Content Calendar Draft</p>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary-dark mb-2 text-center">1-Week Video Content Plan</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">Detailed script and visual concept breakdown for 7 days of short-form video content production.</p>
+                        <a class="block text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md shadow-red-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">View Plan</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. CANVA DESIGNS (Yellow Theme) --><section id="canvaart" class="mb-16 animate-section-in delay-5">
+                <h3 class="text-2xl font-bold text-primary-dark mb-4">Canva & Graphic Design</h3>
+                <p class="text-text-muted-dark mb-8 max-w-3xl">This is a custom section to make the strategy section consistent with other sections</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Canva 1: Yellow Theme -->
+                    <div class="group light-card canva-yellow bg-light-card-yellow p-5 rounded-xl shadow-xl border border-amber-400/50 transition duration-300 hover:shadow-neon-yellow hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-white rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-amber-500">Poster Placeholder</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-xl font-bold text-primary-dark mb-2 text-center">Canva Poster Edit 1</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">Social media poster focusing on clean typography and high contrast visuals for a tech startup launch event.</p>
+                        <a class="block text-center bg-amber-500 hover:bg-amber-600 text-primary-dark font-semibold py-3 rounded-lg transition duration-200 shadow-md shadow-amber-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">See Design</a>
+                    </div>
+                    <!-- Canva 2: Yellow Theme -->
+                    <div class="group light-card canva-yellow bg-light-card-yellow p-5 rounded-xl shadow-xl border border-amber-400/50 transition duration-300 hover:shadow-neon-yellow hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-white rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-amber-500">Poster Placeholder</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-xl font-bold text-primary-dark mb-2 text-center">Canva Poster Edit 2</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">Infographic design simplifying complex data on market growth for a client presentation.</p>
+                        <a class="block text-center bg-amber-500 hover:bg-amber-600 text-primary-dark font-semibold py-3 rounded-lg transition duration-200 shadow-md shadow-amber-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">See Design</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. CONTENT STRATEGY (Green/Teal Theme) --><section id="contentcalendar" class="mb-20 animate-section-in delay-6">
+                <h3 class="text-2xl font-bold text-primary-dark mb-4">Content Strategy & Planning</h3>
+                <p class="text-text-muted-dark mb-8 max-w-3xl">This is a custom section to make the strategy section consistent with other sections</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Strategy: Green/Teal Theme -->
+                    <div class="group light-card strategy-green bg-light-card-green p-5 rounded-xl shadow-xl border border-teal-400/50 transition duration-300 hover:shadow-neon-green hover:bg-white flex flex-col h-full">
+                        <!-- MOVED: Video Placeholder is now first -->
+                        <div class="w-full h-56 bg-white rounded-lg flex items-center justify-center mb-6 border border-gray-300">
+                            <p class="text-teal-500">Strategy Document Preview</p>
+                        </div>
+                        <!-- MOVED: Title and Description come after placeholder -->
+                        <h3 class="text-xl font-bold text-primary-dark mb-2 text-center">Q3 2024 Content Strategy</h3>
+                        <p class="text-sm text-text-muted-dark mb-8 text-center">Detailed 90-day plan outlining content pillars, target metrics, and distribution channels for B2B tech clients.</p>
+                        <a class="block text-center bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-md shadow-teal-500/30 transform hover:-translate-y-1 hover:shadow-xl mt-auto" href="#">View Strategy</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT SECTION --><section id="contact" class="mb-20 pt-8 animate-section-in delay-5">
+                <!-- UPDATED HEADING -->
+                <h2 class="text-4xl font-extrabold mb-2 text-primary-dark text-center">Need Sauce? I’m the secret ingredient.</h2>
+                <div class="bg-card-bg-light p-8 rounded-xl shadow-xl border border-gray-200 max-w-4xl mx-auto">
+                    <!-- UPDATED DESCRIPTION -->
+                    <p class="text-text-muted-dark mb-6 text-center">Connect with me to discuss your next big idea!</p>
+                    <form onsubmit="handleFormSubmit(event);" id="contact-form" class="space-y-4">
+                        <input required placeholder="Your Name" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition">
+                        <input required placeholder="Your Email" type="email" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition">
+                        <textarea required placeholder="Brief Message" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition min-h-[120px]"></textarea>
+                        <button class="w-full bg-secondary-pink hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md shadow-secondary-pink/30" type="submit">Send Message</button>
+                    </form>
+                    <div id="success-message" class="hidden items-center justify-center p-4 mt-6 rounded-lg bg-green-100 border border-green-300 text-green-700 font-semibold">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p>Thank you! Your message has been sent successfully.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="p-6 mt-12 text-center text-text-muted-dark border-t border-gray-300">
+            <p class="text-sm font-semibold">© 2025 Aditya Mahale. All Rights Reserved.</p>
+            <p class="text-xs mt-1">Design & Content by AM.</p>
         </footer>
-
     </div>
-
 </body>
 </html>
