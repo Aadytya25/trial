@@ -43,23 +43,7 @@
 
         // --- JavaScript Functions for UX ---
 
-        // 1. Form Submission Handler
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = document.getElementById('contact-form');
-            const messageBox = document.getElementById('success-message');
-            
-            // Simulate form submission success
-            form.reset();
-            messageBox.classList.remove('hidden');
-            messageBox.classList.add('flex');
-            
-            // Hide the success message after 5 seconds
-            setTimeout(() => {
-                messageBox.classList.remove('flex');
-                messageBox.classList.add('hidden');
-            }, 5000);
-        }
+        // NOTE: handleFormSubmit is removed as Formspree will handle submission and redirect.
 
         // 2. Mobile Menu Toggle - RESTORED
         function toggleMobileMenu() {
@@ -366,12 +350,18 @@
                 <div class="bg-card-bg-light p-8 rounded-xl shadow-xl border border-gray-200 max-w-4xl mx-auto">
                     <!-- UPDATED DESCRIPTION -->
                     <p class="text-text-muted-dark mb-6 text-center">Connect with me to discuss your next big idea!</p>
-                    <form onsubmit="handleFormSubmit(event);" id="contact-form" class="space-y-4">
-                        <input required placeholder="Your Name" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition">
-                        <input required placeholder="Your Email" type="email" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition">
-                        <textarea required placeholder="Brief Message" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition min-h-[120px]"></textarea>
+                    <!-- Form updated to use Formspree for real email delivery (manpplpv added) -->
+                    <form method="POST" action="https://formspree.io/f/manpplpv" class="space-y-4">
+                        <!-- Honeypot field for spam prevention -->
+                        <input type="text" name="_gotcha" style="display:none" />
+                        
+                        <input required placeholder="Your Name" name="name" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition">
+                        <input required placeholder="Your Email" type="email" name="email" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition">
+                        <textarea required placeholder="Brief Message" name="message" class="w-full p-3 rounded-lg bg-gray-100 border border-gray-300 text-primary-dark placeholder-gray-500 focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition min-h-[120px]"></textarea>
                         <button class="w-full bg-secondary-pink hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md shadow-secondary-pink/30" type="submit">Send Message</button>
                     </form>
+                    
+                    <!-- NOTE: Success message div is now unused, as Formspree redirects on success. -->
                     <div id="success-message" class="hidden items-center justify-center p-4 mt-6 rounded-lg bg-green-100 border border-green-300 text-green-700 font-semibold">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <p>Thank you! Your message has been sent successfully.</p>
