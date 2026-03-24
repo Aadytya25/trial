@@ -7,9 +7,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --smooth-easing: cubic-bezier(0.2, 0, 0, 1);
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* Improved momentum scrolling on iOS */
+        }
+
+        /* Standardize section spacing and scroll alignment */
+        section {
+            scroll-margin-top: 80px; /* Prevents navbar from overlapping section headers on jump-links */
         }
 
         /* --- Animated Theme Components --- */
@@ -73,32 +83,45 @@
             z-index: 10;
         }
 
-        .section-card {
-            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+        /* --- Improved Reveal System for Ultra-Smooth Scrolling --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s var(--smooth-easing), 
+                        transform 1.2s var(--smooth-easing);
+            will-change: transform, opacity;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered loading for grids */
+        .grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+
+        /* --- Standard Card Style --- */
+        .standard-card {
+            transition: all 0.5s var(--smooth-easing);
             background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid #3b82f6;
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+            border-radius: 48px;
+            position: relative;
+            z-index: 1;
         }
 
-        .section-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.15);
-        }
-
-        .journey-card {
-            transition: all 0.3s ease-out;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .journey-card:hover {
-            transform: scale(1.01) translateX(8px);
-            border-color: #3b82f6;
+        .standard-card:hover {
+            transform: translateY(-8px) scale(1.01);
             background: #ffffff;
-            box-shadow: 10px 10px 40px -10px rgba(59, 130, 246, 0.1);
         }
+
+        /* Glow Colors for Standard Cards */
+        .card-blue:hover { border-color: #3b82f6; box-shadow: 0 30px 60px -20px rgba(59, 130, 246, 0.25), 0 0 20px rgba(59, 130, 246, 0.15); }
+        .card-emerald:hover { border-color: #10b981; box-shadow: 0 30px 60px -20px rgba(16, 185, 129, 0.25), 0 0 20px rgba(16, 185, 129, 0.15); }
+        .card-indigo:hover { border-color: #6366f1; box-shadow: 0 30px 60px -20px rgba(99, 102, 241, 0.25), 0 0 20px rgba(99, 102, 241, 0.15); }
 
         .timeline-dot {
             width: 16px;
@@ -143,32 +166,31 @@
             transition: filter 0.3s;
         }
 
-        .section-card:hover .hover-video {
-            filter: brightness(1.05);
-        }
-
         .glass-nav {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.4s var(--smooth-easing);
         }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
+        /* Custom scroll progress indicator */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, #3b82f6, #2dd4bf);
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        /* --- Work Showcase Section --- */
         .showcase-card {
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 1.5rem;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.6s var(--smooth-easing);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -177,9 +199,15 @@
         }
 
         .showcase-card:hover {
-            box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.1);
-            transform: translateY(-8px);
+            transform: translateY(-12px);
         }
+
+        .showcase-blue:hover { box-shadow: 0 30px 60px -12px rgba(59, 130, 246, 0.25), 0 0 15px rgba(59, 130, 246, 0.1); }
+        .showcase-emerald:hover { box-shadow: 0 30px 60px -12px rgba(16, 185, 129, 0.25), 0 0 15px rgba(16, 185, 129, 0.1); }
+        .showcase-indigo:hover { box-shadow: 0 30px 60px -12px rgba(99, 102, 241, 0.25), 0 0 15px rgba(99, 102, 241, 0.1); }
+        .showcase-violet:hover { box-shadow: 0 30px 60px -12px rgba(139, 92, 246, 0.25), 0 0 15px rgba(139, 92, 246, 0.1); }
+        .showcase-amber:hover { box-shadow: 0 30px 60px -12px rgba(245, 158, 11, 0.25), 0 0 15px rgba(245, 158, 11, 0.1); }
+        .showcase-rose:hover { box-shadow: 0 30px 60px -12px rgba(244, 63, 94, 0.25), 0 0 15px rgba(244, 63, 94, 0.1); }
 
         .icon-box {
             width: 44px;
@@ -190,7 +218,7 @@
             justify-content: center;
             font-size: 1.25rem;
             margin-bottom: 1.25rem;
-            transition: all 0.3s;
+            transition: all 0.4s var(--smooth-easing);
         }
 
         .showcase-card:hover .icon-box {
@@ -223,7 +251,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            transition: all 0.3s;
+            transition: all 0.4s var(--smooth-easing);
             width: fit-content;
         }
 
@@ -232,104 +260,44 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        /* --- Refined Professional Core Competencies --- */
-        .expertise-card {
-            transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
-            border: 1px solid rgba(226, 232, 240, 0.6);
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
-        }
-
-        .expertise-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: white;
-            opacity: 0;
-            z-index: -1;
-            border-radius: inherit;
-            transition: opacity 0.3s ease;
-        }
-
-        .expertise-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.9);
-            border-color: currentColor; 
-        }
-
-        .expertise-card:hover::after {
-            opacity: 1;
-        }
-
         .expertise-icon {
-            transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .expertise-card:hover .expertise-icon {
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* --- Project Card Modernized --- */
-        .project-main-card {
-            transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(59, 130, 246, 0.1);
-        }
-        
-        .project-main-card:hover {
-            transform: translateY(-10px);
-            border-color: #3b82f6;
-            box-shadow: 0 40px 60px -20px rgba(59, 130, 246, 0.15);
-        }
-
-        .project-sidebar {
-            transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
-            background: rgba(248, 250, 252, 0.8);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .project-sidebar:hover {
-            background: white;
-            border-color: #2dd4bf;
-            box-shadow: 0 20px 30px -10px rgba(45, 212, 191, 0.1);
+            transition: all 0.5s var(--smooth-easing);
         }
 
         .tech-tag {
-            transition: all 0.3s ease;
+            transition: all 0.4s var(--smooth-easing);
             cursor: default;
         }
 
         .tech-tag:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             background: #3b82f6;
             color: white;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 leading-relaxed selection:bg-blue-100 selection:text-blue-900">
+<body class="bg-slate-50 text-slate-900 leading-relaxed selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
+
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 border-b border-slate-200/60 glass-nav">
+    <nav id="main-nav" class="fixed top-0 w-full z-50 border-b border-slate-200/60 glass-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 sm:h-20 items-center">
-                <div class="flex items-center gap-3 group cursor-pointer">
-                    <div class="w-9 h-9 sm:w-11 sm:h-11 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-200 group-hover:rotate-6 transition-transform">P</div>
+                <div class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-200 group-hover:rotate-6 transition-transform duration-500">P</div>
                     <div class="text-lg sm:text-xl font-extrabold tracking-tighter gradient-text">Portfolio</div>
                 </div>
                 <div class="hidden lg:flex space-x-10 text-[13px] font-bold text-slate-500 uppercase tracking-widest">
-                    <a href="#about" class="hover:text-blue-600 transition">About</a>
-                    <a href="#expertise" class="hover:text-blue-600 transition">Expertise</a>
-                    <a href="#experience" class="hover:text-blue-600 transition">Internship</a>
-                    <a href="#work-showcase" class="hover:text-blue-600 transition">Showcase</a>
-                    <a href="#projects" class="hover:text-blue-600 transition">Research</a>
+                    <a href="#about" class="hover:text-blue-600 transition-colors duration-300">About</a>
+                    <a href="#expertise" class="hover:text-blue-600 transition-colors duration-300">Expertise</a>
+                    <a href="#experience" class="hover:text-blue-600 transition-colors duration-300">Internship</a>
+                    <a href="#work-showcase" class="hover:text-blue-600 transition-colors duration-300">Showcase</a>
+                    <a href="#projects" class="hover:text-blue-600 transition-colors duration-300">Research</a>
                 </div>
                 <div class="flex items-center gap-4">
-                    <button class="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-xs font-bold hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 hover:shadow-blue-200">
+                    <button class="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-xs font-bold hover:bg-blue-600 transition-all duration-300 shadow-xl shadow-slate-200 hover:shadow-blue-200 active:scale-95">
                         Get CV
                     </button>
                 </div>
@@ -338,24 +306,25 @@
     </nav>
 
     <!-- Hero Section -->
-    <header id="about" class="pt-40 pb-24 px-4 bg-mesh overflow-hidden relative border-b border-slate-100">
+    <header id="about" class="pt-48 pb-32 px-4 bg-mesh overflow-hidden relative border-b border-slate-100 min-h-[90vh] flex items-center">
         <div class="max-w-5xl mx-auto text-center hero-content reveal">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-8 bg-white text-blue-700 rounded-full text-[11px] font-extrabold tracking-[0.2em] uppercase border border-slate-200 shadow-sm">
                 <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                Marketing & Finance Specialist
+                <span>Marketing & Finance Specialist</span>
             </div>
             <h1 class="text-5xl md:text-8xl font-[900] mb-10 tracking-tight text-slate-900 leading-[0.95]">
-                Impact Driven <br><span class="gradient-text">By Design.</span>
+                Impact Driven <br>
+                <span class="gradient-text">By Design.</span>
             </h1>
             <p class="text-lg md:text-2xl text-slate-500 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
                 MBA Candidate at Presidency University. Bridging the gap between <span class="text-slate-900 font-bold underline decoration-blue-500 decoration-4 underline-offset-4">strategic marketing</span> and <span class="text-slate-900 font-bold underline decoration-teal-400 decoration-4 underline-offset-4">financial analytics</span>.
             </p>
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
-                <div class="flex items-center gap-3 px-6 py-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-blue-200 transition-colors">
+                <div class="flex items-center gap-3 px-6 py-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-blue-200 transition-colors duration-500">
                     <span class="text-xl">📍</span>
                     <span class="text-sm font-bold text-slate-700">Bengaluru, India</span>
                 </div>
-                <div class="flex items-center gap-3 px-6 py-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-blue-200 transition-colors">
+                <div class="flex items-center gap-3 px-6 py-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-blue-200 transition-colors duration-500">
                     <span class="text-xl">🎓</span>
                     <span class="text-sm font-bold text-slate-700">MBA 2023-2025</span>
                 </div>
@@ -363,8 +332,8 @@
         </div>
     </header>
 
-    <!-- Expertise Section (Professional Refinement) -->
-    <section id="expertise" class="py-28 px-4 bg-white relative">
+    <!-- Expertise Section -->
+    <section id="expertise" class="py-32 px-4 bg-white relative">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20 reveal">
                 <h2 class="text-4xl font-[900] mb-4 tracking-tight text-slate-900">Core Competencies</h2>
@@ -373,57 +342,57 @@
             
             <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
                 <!-- Finance -->
-                <div class="expertise-card p-10 rounded-[40px] reveal border-blue-100 group text-blue-600">
+                <div class="standard-card card-blue p-10 reveal group">
                     <div class="expertise-icon w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-8 text-3xl">📊</div>
-                    <h3 class="text-2xl font-black mb-5 tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">Finance</h3>
+                    <h3 class="text-2xl font-black mb-5 tracking-tight text-blue-600">Finance</h3>
                     <p class="text-slate-500 text-sm font-medium leading-relaxed mb-8">Regional economic analysis, risk-return modeling, and quantitative data structuring for financial advisory.</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="competency-tag px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100">Analytics</span>
-                        <span class="competency-tag px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100">Risk</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100">Analytics</span>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100">Risk</span>
                     </div>
                 </div>
 
                 <!-- Marketing -->
-                <div class="expertise-card p-10 rounded-[40px] reveal border-emerald-100 group text-emerald-600">
+                <div class="standard-card card-emerald p-10 reveal group">
                     <div class="expertise-icon w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-8 text-3xl">⚡</div>
-                    <h3 class="text-2xl font-black mb-5 tracking-tight text-slate-900 group-hover:text-emerald-600 transition-colors">Marketing</h3>
+                    <h3 class="text-2xl font-black mb-5 tracking-tight text-emerald-600">Marketing</h3>
                     <p class="text-slate-500 text-sm font-medium leading-relaxed mb-8">End-to-end digital growth including Meta Ads, SMM strategy, and ROI-focused campaign execution.</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="competency-tag px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-100">Digital</span>
-                        <span class="competency-tag px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-100">Growth</span>
+                        <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-100">Digital</span>
+                        <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-100">Growth</span>
                     </div>
                 </div>
 
                 <!-- Content -->
-                <div class="expertise-card p-10 rounded-[40px] reveal border-indigo-100 group text-indigo-600">
+                <div class="standard-card card-indigo p-10 reveal group">
                     <div class="expertise-icon w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-8 text-3xl">🎬</div>
-                    <h3 class="text-2xl font-black mb-5 tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors">Content</h3>
+                    <h3 class="text-2xl font-black mb-5 tracking-tight text-indigo-600">Content</h3>
                     <p class="text-slate-500 text-sm font-medium leading-relaxed mb-8">Viral content hooks, professional video editing, and SEO-optimized script writing for high retention.</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="competency-tag px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100">Viral</span>
-                        <span class="competency-tag px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100">SEO</span>
+                        <span class="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100">Viral</span>
+                        <span class="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-indigo-100">SEO</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Professional Timeline (Stable Theme) -->
-    <section id="experience" class="py-28 px-4 bg-white border-t border-slate-100">
+    <!-- Professional Timeline -->
+    <section id="experience" class="py-32 px-4 bg-white border-t border-slate-100">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-4xl font-[900] mb-4 text-center tracking-tight text-slate-900">Academic & Professional Journey</h2>
             <p class="text-center text-slate-500 mb-20 font-medium italic">A documented path of professional growth and academic excellence.</p>
             
             <div class="relative border-l-[3px] border-slate-100 ml-4 pl-10 md:pl-16 space-y-16">
                 <!-- Recent Internship -->
-                <div class="relative journey-card p-8 rounded-[32px] reveal group">
+                <div class="relative standard-card card-blue p-8 reveal group">
                     <div class="timeline-dot"></div>
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-4 gap-4">
                         <div>
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-600 text-white rounded-lg text-[10px] font-black uppercase mb-3 shadow-lg shadow-blue-100">
                                 Active Internship
                             </div>
-                            <h3 class="text-2xl font-black mb-1 group-hover:text-blue-600 transition-colors text-slate-900">Digital Marketing Intern</h3>
+                            <h3 class="text-2xl font-black mb-1 group-hover:text-blue-600 transition-colors duration-300 text-blue-600">Digital Marketing Intern</h3>
                             <p class="text-slate-500 font-bold flex items-center gap-2 text-sm">
                                 <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
                                 I Cap Traders Circuit Pvt. Ltd, Bengaluru
@@ -435,14 +404,14 @@
                 </div>
 
                 <!-- Previous Internship -->
-                <div class="relative journey-card p-8 rounded-[32px] reveal group">
-                    <div class="timeline-dot" style="background-color: #14b8a6;"></div>
+                <div class="relative standard-card card-emerald p-8 reveal group">
+                    <div class="timeline-dot" style="background-color: #10b981;"></div>
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-4 gap-4">
                         <div>
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-teal-500 text-white rounded-lg text-[10px] font-black uppercase mb-3 shadow-lg shadow-teal-100">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500 text-white rounded-lg text-[10px] font-black uppercase mb-3 shadow-lg shadow-emerald-100">
                                 Financial Analytics
                             </div>
-                            <h3 class="text-2xl font-black mb-1 group-hover:text-teal-600 transition-colors text-slate-900">Research & Analysis Intern</h3>
+                            <h3 class="text-2xl font-black mb-1 group-hover:text-emerald-600 transition-colors duration-300 text-emerald-600">Research & Analysis Intern</h3>
                             <p class="text-slate-500 font-bold flex items-center gap-2 text-sm">
                                 <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
                                 Infopace Management Pvt Ltd, Bengaluru
@@ -454,14 +423,14 @@
                 </div>
 
                 <!-- MBA -->
-                <div class="relative journey-card p-8 rounded-[32px] reveal group">
-                    <div class="timeline-dot" style="background-color: #4f46e5;"></div>
+                <div class="relative standard-card card-indigo p-8 reveal group">
+                    <div class="timeline-dot" style="background-color: #6366f1;"></div>
                     <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-4 gap-4">
                         <div>
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-600 text-white rounded-lg text-[10px] font-black uppercase mb-3 shadow-lg shadow-indigo-100">
                                 Postgraduate
                             </div>
-                            <h3 class="text-2xl font-black mb-1 group-hover:text-indigo-600 transition-colors text-slate-900">MBA (Finances + Marketing)</h3>
+                            <h3 class="text-2xl font-black mb-1 group-hover:text-indigo-600 transition-colors duration-300 text-indigo-600">MBA (Finances + Marketing)</h3>
                             <p class="text-slate-500 font-bold flex items-center gap-2 text-sm">
                                 <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
                                 Presidency University Bengaluru
@@ -477,8 +446,8 @@
         </div>
     </section>
 
-    <!-- Work Showcase (Dynamic Card Themes & Synchronized Buttons) -->
-    <section id="work-showcase" class="py-28 px-4 bg-slate-50 overflow-hidden">
+    <!-- Work Showcase -->
+    <section id="work-showcase" class="py-32 px-4 bg-slate-50 overflow-hidden">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20 reveal">
                 <h2 class="text-4xl md:text-5xl font-[900] mb-4 tracking-tight text-slate-900">Work Showcase</h2>
@@ -487,7 +456,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <!-- Viral YouTube Video (Row 1 - Blue) -->
-                <div class="showcase-card reveal group bg-blue-50/80 border-blue-200">
+                <div class="showcase-card showcase-blue reveal group bg-blue-50/80 border-blue-200">
                     <span class="stat-badge bg-blue-100 text-blue-700">4L+ Views</span>
                     <div class="icon-box bg-blue-100 text-blue-600 group-hover:bg-blue-600">📽️</div>
                     <div class="media-container mb-6 bg-slate-900 shadow-xl shadow-blue-200/50">
@@ -505,7 +474,7 @@
                 </div>
 
                 <!-- Reel Edits (Row 1 - Emerald) -->
-                <div class="showcase-card reveal group bg-emerald-50/80 border-emerald-200">
+                <div class="showcase-card showcase-emerald reveal group bg-emerald-50/80 border-emerald-200">
                     <div class="icon-box bg-emerald-100 text-emerald-600 group-hover:bg-emerald-600">🎬</div>
                     <div class="media-container mb-6 bg-slate-900 shadow-xl shadow-emerald-200/50">
                         <video class="hover-video" muted loop preload="metadata" poster="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=600">
@@ -522,7 +491,7 @@
                 </div>
 
                 <!-- SEO Writing (Row 1 - Indigo) -->
-                <div class="showcase-card reveal group bg-indigo-50/80 border-indigo-100">
+                <div class="showcase-card showcase-indigo reveal group bg-indigo-50/80 border-indigo-100">
                     <div class="icon-box bg-indigo-100 text-indigo-600 group-hover:bg-indigo-600">🔍</div>
                     <div class="media-container mb-6 shadow-xl shadow-indigo-200/50">
                         <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="SEO">
@@ -537,14 +506,14 @@
                 </div>
 
                 <!-- Scripting (Row 2 - Violet) -->
-                <div class="showcase-card reveal group bg-violet-50/80 border-violet-200">
+                <div class="showcase-card showcase-violet reveal group bg-violet-50/80 border-violet-200">
                     <div class="icon-box bg-violet-100 text-violet-600 group-hover:bg-violet-600">🖋️</div>
                     <div class="media-container mb-6 bg-violet-100 flex items-center justify-center shadow-xl shadow-violet-200/50">
                         <span class="text-5xl">📄</span>
                     </div>
                     <div class="mb-6">
                         <h3 class="font-black text-xl mb-3 text-slate-900 transition-colors">Script & Narratives</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">Drafting technical scripts for finance videos, ensuring complex concepts are simplified and engaging for audiences.</p>
+                        <p class="text-slate-500 text-sm leading-relaxed">Drafting technical scripts for finance videos, ensuring complex concepts are simplified and engaging for audiences.</p>
                     </div>
                     <a href="#" class="view-project-btn bg-violet-600 text-white hover:bg-violet-700 shadow-violet-200">
                         View Project <span>→</span>
@@ -552,7 +521,7 @@
                 </div>
 
                 <!-- Posters (Row 2 - Amber) -->
-                <div class="showcase-card reveal group bg-amber-50/80 border-amber-200">
+                <div class="showcase-card showcase-amber reveal group bg-amber-50/80 border-amber-200">
                     <div class="icon-box bg-amber-100 text-amber-600 group-hover:bg-amber-600">🎨</div>
                     <div class="media-container mb-6 shadow-xl shadow-amber-200/50">
                         <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="Posters">
@@ -567,7 +536,7 @@
                 </div>
 
                 <!-- Social Handling (Row 2 - Rose) -->
-                <div class="showcase-card reveal group bg-rose-50/80 border-rose-200">
+                <div class="showcase-card showcase-rose reveal group bg-rose-50/80 border-rose-200">
                     <div class="icon-box bg-rose-100 text-rose-600 group-hover:bg-rose-600">📱</div>
                     <div class="media-container mb-6 shadow-xl shadow-rose-200/50">
                         <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="SMM">
@@ -584,10 +553,9 @@
         </div>
     </section>
 
-    <!-- Detailed Research (Major Project - Modernized & Theme Friendly) -->
-    <section id="projects" class="py-28 px-4 bg-white relative overflow-hidden">
+    <!-- Detailed Research -->
+    <section id="projects" class="py-32 px-4 bg-white relative overflow-hidden">
         <div class="max-w-6xl mx-auto relative z-10 reveal">
-            <!-- Centered Header Alignment & Smaller Single-Line Title -->
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-[900] mb-3 text-slate-900 tracking-tight leading-[0.95]">Major Research Project</h2>
                 <div class="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mt-6"></div>
@@ -595,7 +563,7 @@
             
             <div class="grid lg:grid-cols-[1.5fr_1fr] gap-10 items-stretch">
                 <!-- Main Card -->
-                <div class="project-main-card p-8 md:p-12 rounded-[48px] flex flex-col justify-center">
+                <div class="standard-card card-blue p-8 md:p-12 flex flex-col justify-center">
                     <div class="space-y-10">
                         <div>
                             <h3 class="text-2xl md:text-3xl font-black text-blue-600 mb-6 tracking-tight">Investment Banking Awareness Study</h3>
@@ -606,24 +574,24 @@
                         <div class="grid sm:grid-cols-2 gap-10">
                             <div class="group">
                                 <h4 class="text-blue-600 font-black text-xs uppercase mb-4 tracking-tighter border-b border-blue-100 pb-2 inline-block">Study Scope</h4>
-                                <p class="text-slate-500 text-sm leading-relaxed group-hover:text-slate-900 transition-colors">Mapping familiarity with complex FX instruments (Spot, Swaps) and assessing perception of M&A/IPO services among a diverse set of 200+ professionals.</p>
+                                <p class="text-slate-500 text-sm leading-relaxed group-hover:text-slate-900 transition-colors duration-300">Mapping familiarity with complex FX instruments (Spot, Swaps) and assessing perception of M&A/IPO services among a diverse set of 200+ professionals.</p>
                             </div>
                             <div class="group">
                                 <h4 class="text-blue-600 font-black text-xs uppercase mb-4 tracking-tighter border-b border-blue-100 pb-2 inline-block">Data Analysis</h4>
-                                <p class="text-slate-500 text-sm leading-relaxed group-hover:text-slate-900 transition-colors">Behavioral finance modeling executed using descriptive statistics and robust quantitative frameworks within MS Excel.</p>
+                                <p class="text-slate-500 text-sm leading-relaxed group-hover:text-slate-900 transition-colors duration-300">Behavioral finance modeling executed using descriptive statistics and robust quantitative frameworks within MS Excel.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Technical Sidebar -->
-                <div class="project-sidebar p-10 rounded-[40px] flex flex-col">
-                    <h5 class="text-xs font-black uppercase text-slate-400 tracking-[0.2em] mb-8">Technical Stack</h5>
+                <div class="standard-card card-blue p-10 flex flex-col">
+                    <h5 class="text-xs font-black uppercase text-blue-600 tracking-[0.2em] mb-8">Technical Stack</h5>
                     <div class="flex flex-wrap gap-3 mb-12">
-                        <span class="tech-tag bg-white border border-slate-200 px-4 py-2 rounded-xl text-xs font-black text-slate-700 shadow-sm">MS Excel</span>
-                        <span class="tech-tag bg-white border border-slate-200 px-4 py-2 rounded-xl text-xs font-black text-slate-700 shadow-sm">Pivot Tables</span>
-                        <span class="tech-tag bg-white border border-slate-200 px-4 py-2 rounded-xl text-xs font-black text-slate-700 shadow-sm">Quant Modeling</span>
-                        <span class="tech-tag bg-white border border-slate-200 px-4 py-2 rounded-xl text-xs font-black text-slate-700 shadow-sm">Data Vis</span>
+                        <span class="tech-tag bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl text-xs font-black text-blue-600 shadow-sm">MS Excel</span>
+                        <span class="tech-tag bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl text-xs font-black text-blue-600 shadow-sm">Pivot Tables</span>
+                        <span class="tech-tag bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl text-xs font-black text-blue-600 shadow-sm">Quant Modeling</span>
+                        <span class="tech-tag bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl text-xs font-black text-blue-600 shadow-sm">Data Vis</span>
                     </div>
                     
                     <div class="mt-auto pt-10 border-t border-slate-200">
@@ -636,7 +604,6 @@
                 </div>
             </div>
         </div>
-        <!-- Theme Background Accents -->
         <div class="absolute -right-40 -top-40 w-96 h-96 bg-blue-50 rounded-full blur-[120px]"></div>
         <div class="absolute -left-40 -bottom-40 w-96 h-96 bg-teal-50 rounded-full blur-[120px]"></div>
     </section>
@@ -654,9 +621,9 @@
                     </div>
                 </div>
                 <div class="w-full md:w-auto">
-                    <div class="bg-white p-10 rounded-[48px] shadow-2xl shadow-blue-100 border border-slate-200">
+                    <div class="standard-card card-blue p-10 shadow-2xl shadow-blue-100">
                         <div class="text-xs font-extrabold text-blue-600 uppercase tracking-widest mb-2">Connect Directly</div>
-                        <a href="mailto:your-email@example.com" class="text-2xl font-black hover:text-blue-600 transition tracking-tight text-slate-900">your-email@example.com</a>
+                        <a href="mailto:your-email@example.com" class="text-2xl font-black hover:text-blue-600 transition-colors duration-300 tracking-tight text-slate-900">your-email@example.com</a>
                         <div class="mt-8 pt-8 border-t border-slate-100">
                             <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Linguistics</p>
                             <p class="text-sm font-bold text-slate-800 text-slate-900">English, Hindi, Konkani, Kannada, Marathi</p>
@@ -671,15 +638,23 @@
                     <span>© 2026 Professional Portfolio</span>
                 </div>
                 <div class="flex gap-8">
-                    <a href="#" class="hover:text-blue-600 transition">LinkedIn</a>
-                    <a href="#" class="hover:text-blue-600 transition">Twitter</a>
-                    <a href="#" class="hover:text-blue-600 transition">Instagram</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors duration-300">LinkedIn</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors duration-300">Twitter</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors duration-300">Instagram</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
+        // Smooth scroll progress indicator
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        };
+
         // Hover to play video logic
         const videos = document.querySelectorAll('.hover-video');
         videos.forEach(video => {
@@ -695,22 +670,37 @@
             }
         });
 
-        // Intersection Observer logic
-        const reveal = () => {
-            const reveals = document.querySelectorAll(".reveal");
-            const windowHeight = window.innerHeight;
-            const revealPoint = 100;
-
-            reveals.forEach(el => {
-                const revealTop = el.getBoundingClientRect().top;
-                if (revealTop < windowHeight - revealPoint) {
-                    el.classList.add("active");
-                }
-            });
+        // Modern Intersection Observer for smoother entrance animations
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        window.addEventListener("scroll", reveal);
-        window.addEventListener("load", reveal); // Initial check
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("active");
+                }
+            });
+        }, revealOptions);
+
+        document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
