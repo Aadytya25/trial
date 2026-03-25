@@ -313,20 +313,14 @@
     <nav id="main-nav" class="fixed top-0 w-full z-50 border-b border-slate-200/60 dark:border-slate-800/60 glass-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 sm:h-20 items-center">
-                <!-- Advanced Introduction Sequence (Stability-Fix Version) -->
-                <!-- Use w-[350px] to ensure the Logo Wrapper stays at a constant size, preventing the nav links from moving -->
                 <div class="flex items-center lg:w-[350px]">
                     <div id="logo-wrapper" class="flex items-center gap-4 group cursor-pointer opacity-0" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                        <!-- Sliding Profile Icon (Updated with Chatbot GIF and No Container Styling) -->
                         <div id="logo-icon-container" class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-transform duration-500">
                             <img src="https://uploads.onecompiler.io/43u9fwcax/445h7ft6x/chatbot%20(1).gif" alt="Chatbot" class="w-full h-full object-contain">
                         </div>
-                        
-                        <!-- Typography Focus Introduction -->
                         <div id="intro-pill" class="hidden flex items-center justify-center transition-all duration-500">
                             <div class="flex items-center">
                                 <span id="typing-text-pill" class="text-sm sm:text-base font-[900] tracking-tight whitespace-nowrap gradient-text"></span>
-                                <!-- Custom Cursor -->
                                 <span id="typing-cursor" class="w-[2px] h-[1em] bg-blue-600 dark:bg-blue-400 ml-1 opacity-0"></span>
                             </div>
                         </div>
@@ -342,7 +336,6 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <!-- "Get CV" button removed as requested -->
                 </div>
             </div>
         </div>
@@ -672,16 +665,20 @@
             </div>
             
             <div class="standard-card card-blue p-8 md:p-12 max-w-2xl mx-auto shadow-2xl">
-                <form class="space-y-6">
+                <!-- UPDATED WORKABLE FORM WITH YOUR SPECIFIC ID -->
+                <form action="https://formspree.io/f/xaqlyylo" method="POST" class="space-y-6">
                     <div>
-                        <input type="text" placeholder="Your Name" class="form-input">
+                        <input type="text" name="name" placeholder="Your Name" class="form-input" required>
                     </div>
                     <div>
-                        <input type="email" placeholder="Your Email" class="form-input">
+                        <input type="email" name="_replyto" placeholder="Your Email" class="form-input" required>
                     </div>
                     <div>
-                        <textarea placeholder="Brief Message" rows="5" class="form-input resize-none"></textarea>
+                        <textarea name="message" placeholder="Brief Message" rows="5" class="form-input resize-none" required></textarea>
                     </div>
+                    <!-- Anti-spam honeypot -->
+                    <input type="text" name="_gotcha" style="display:none" />
+                    
                     <button type="submit" class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl font-[900] uppercase tracking-widest transition-all duration-300 transform active:scale-95 shadow-xl shadow-blue-500/20 dark:shadow-none">
                         Send Message
                     </button>
@@ -695,11 +692,10 @@
         <div class="max-w-7xl mx-auto text-center">
             <div class="flex flex-col gap-6 text-[11px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest reveal">
                 <div class="flex justify-center gap-8 mb-4">
-                    <!-- ADD YOUR SOCIAL LINKS HERE -->
                     <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">LinkedIn</a>
                     <a href="https://instagram.com/YOUR_USERNAME" target="_blank" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">Instagram</a>
                 </div>
-                <p>© 2025 Aditya Mahale. All Rights Reserved.</p>
+                <p>© 2026 Aditya Mahale. All Rights Reserved.</p>
                 <p class="text-[10px]">Design & Content by AM.</p>
             </div>
         </div>
@@ -713,28 +709,19 @@
         const logoWrapper = document.getElementById('logo-wrapper');
         
         async function typewriterEffect() {
-            // Stage 1: Icon slides in
             await new Promise(resolve => setTimeout(resolve, 800));
             
-            // Reveal typing container
             introPill.classList.remove('hidden');
             cursor.classList.remove('opacity-0');
             cursor.classList.add('cursor-active');
 
             while(true) {
-                // 1. Type "Hi!" - Rapid
                 await typeText("Hi!", 50);
                 await new Promise(resolve => setTimeout(resolve, 600));
-
-                // 2. Delete "Hi!" - Rapid
                 await deleteText(40);
                 await new Promise(resolve => setTimeout(resolve, 150));
-
-                // 3. Type name sequence - Rapid
                 await typeText("I'm Aditya Mahale", 40);
                 await new Promise(resolve => setTimeout(resolve, 2000));
-
-                // 4. Delete to restart loop
                 await deleteText(30);
                 await new Promise(resolve => setTimeout(resolve, 400));
             }
