@@ -81,11 +81,43 @@
             animation: gradientShift 8s ease infinite;
         }
 
-        /* New Shifting Gradient for Backgrounds */
-        .gradient-bg-animated {
-            background: linear-gradient(135deg, #3b82f6, #2dd4bf, #8b5cf6, #3b82f6);
-            background-size: 300% 300%;
-            animation: gradientShift 8s ease infinite;
+        /* --- CLEAN BUTTON THEMES --- */
+        .btn-base {
+            transition: all 0.3s var(--smooth-easing);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500; /* Lighter font weight for a subtler look */
+            font-size: 0.875rem;
+            border: 1px solid transparent;
+        }
+
+        /* Resume Button - Soft Azure Blue */
+        .btn-azure {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border-color: #dbeafe;
+        }
+
+        .btn-azure:hover {
+            background-color: #dbeafe;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(219, 234, 254, 0.5);
+        }
+
+        /* Location Button - Soft Emerald Green */
+        .btn-emerald {
+            background-color: #ecfdf5;
+            color: #047857;
+            border-color: #d1fae5;
+        }
+
+        .btn-emerald:hover {
+            background-color: #d1fae5;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(209, 250, 229, 0.5);
         }
 
         /* --- Dynamic Background Mesh --- */
@@ -367,15 +399,15 @@
                 <span class="text-slate-900 dark:text-slate-100 font-bold underline decoration-blue-500 decoration-4 underline-offset-4">Excel</span>, <span class="text-slate-900 dark:text-slate-100 font-bold underline decoration-indigo-400 decoration-4 underline-offset-4">Power BI</span> & <span class="text-slate-900 dark:text-slate-100 font-bold underline decoration-violet-400 decoration-4 underline-offset-4">SQL</span>.
             </p>
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
-                <!-- Animated Shifting Gradient Resume Button -->
-                <a href="YOUR_RESUME_URL_HERE" target="_blank" class="flex items-center gap-3 px-6 py-3.5 gradient-bg-animated text-white rounded-2xl shadow-xl shadow-blue-500/25 hover:scale-[1.03] transition-all duration-300 group">
-                    <span class="text-xl group-hover:scale-110 transition-transform duration-300">📄</span>
-                    <span class="text-sm font-bold">View Resume</span>
+                <!-- Resume Button with lighter text style -->
+                <a href="YOUR_RESUME_URL_HERE" target="_blank" class="btn-base btn-azure shadow-lg hover:scale-[1.05] group">
+                    <span class="text-xl transition-transform duration-300 group-hover:scale-110">📄</span>
+                    <span class="text-sm">View Resume</span>
                 </a>
-                <!-- Animated Shifting Gradient Location Badge -->
-                <div class="flex items-center gap-3 px-6 py-3.5 gradient-bg-animated text-white rounded-2xl shadow-xl shadow-indigo-500/25 hover:scale-[1.03] transition-all duration-300">
+                <!-- Location Badge updated to match the Resume Button color (Soft Azure) -->
+                <div class="btn-base btn-azure shadow-lg hover:scale-[1.05]">
                     <span class="text-xl">📍</span>
-                    <span class="text-sm font-bold">Bengaluru, India</span>
+                    <span class="text-sm">Bengaluru, India</span>
                 </div>
             </div>
         </div>
@@ -515,7 +547,7 @@
                 </div>
 
                 <div class="showcase-card showcase-emerald reveal group bg-emerald-50/80 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-900/30">
-                    <div class="icon-box bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 group-hover:bg-blue-600">🎬</div>
+                    <div class="icon-box bg-emerald-100 dark:bg-blue-900 text-emerald-600 dark:text-emerald-400 group-hover:bg-blue-600">🎬</div>
                     <div class="media-container mb-6 bg-slate-900 shadow-xl shadow-emerald-200/50 dark:shadow-none">
                         <video class="hover-video" muted loop preload="metadata" poster="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=600">
                             <source src="" type="video/mp4">
@@ -531,7 +563,7 @@
                 </div>
 
                 <div class="showcase-card showcase-indigo reveal group bg-indigo-50/80 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-900/30">
-                    <div class="icon-box bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 group-hover:bg-blue-600">🔍</div>
+                    <div class="icon-box bg-indigo-100 dark:bg-blue-900 text-indigo-600 dark:text-indigo-400 group-hover:bg-blue-600">🔍</div>
                     <div class="media-container mb-6 shadow-xl shadow-indigo-200/50 dark:shadow-none">
                         <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="SEO">
                     </div>
@@ -545,7 +577,7 @@
                 </div>
 
                 <div class="showcase-card showcase-violet reveal group bg-violet-50/80 dark:bg-violet-900/10 border-violet-200 dark:border-violet-900/30">
-                    <div class="icon-box bg-violet-100 dark:bg-violet-900 text-violet-600 dark:text-violet-400 group-hover:bg-blue-600">🖋️</div>
+                    <div class="icon-box bg-violet-100 dark:bg-blue-900 text-violet-600 dark:text-violet-400 group-hover:bg-blue-600">🖋️</div>
                     <div class="media-container mb-6 bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center shadow-xl shadow-violet-200/50 dark:shadow-none">
                         <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="Script Writing">
                     </div>
@@ -559,7 +591,7 @@
                 </div>
 
                 <div class="showcase-card showcase-amber reveal group bg-amber-50/80 dark:bg-amber-900/10 border-amber-200 dark:border-amber-900/30">
-                    <div class="icon-box bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-400 group-hover:bg-blue-600">🎨</div>
+                    <div class="icon-box bg-amber-100 dark:bg-blue-900 text-amber-600 dark:text-amber-400 group-hover:bg-blue-600">🎨</div>
                     <div class="media-container mb-6 shadow-xl shadow-amber-200/50 dark:shadow-none">
                         <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="Posters">
                     </div>
@@ -573,7 +605,7 @@
                 </div>
 
                 <div class="showcase-card showcase-rose reveal group bg-rose-50/80 dark:bg-rose-900/10 border-rose-200 dark:border-rose-900/30">
-                    <div class="icon-box bg-rose-100 dark:bg-rose-900 text-rose-600 dark:text-rose-400 group-hover:bg-blue-600">📱</div>
+                    <div class="icon-box bg-rose-100 dark:bg-blue-900 text-rose-600 dark:text-rose-400 group-hover:bg-blue-600">📱</div>
                     <div class="media-container mb-6 shadow-xl shadow-rose-200/50 dark:shadow-none">
                         <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" alt="SMM">
                     </div>
